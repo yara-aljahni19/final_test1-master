@@ -1,10 +1,11 @@
 
 
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../models/authentication.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-
+import 'package:encrypt/encrypt.dart';
 
 
 
@@ -119,9 +120,11 @@ class SignUp extends State<SignUpS> {
                                 ),
                                 //leng-cond
                                 obscureText: true,
-                                validator: (value) {
+                                validator: (value)  {
                                   if (value!.trim().length < 8) {
                                     return 'Password must be at least 8 characters in length';
+
+
                                   }
                                   return null;
                                 },
@@ -136,9 +139,12 @@ class SignUp extends State<SignUpS> {
                                       child: RaisedButton(
                                           child: Text('Sign Up'),
                                           // if the state is validate go to login page
-                                          onPressed: () {
+                                          onPressed: () async {
+
                                             if (_formKey.currentState!.validate()) {
-                                         createUser();
+
+
+                                                createUser();
                                             }
                                           }),
                                     )

@@ -7,20 +7,25 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:http/http.dart';
+import 'package:encrypt/encrypt.dart'as ENCRYPT;
 
 
 
 class Authentication with ChangeNotifier {
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future createNewUser(String name, String email, String password) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
-        email: email, password: password,);
+        email: email, password: password);
       User? user = result.user;
-      await database().createUserData(name, email, password, user!.uid);
-      return user;
+
+        await database().createUserData(name, email, password, user!.uid);
+        return user;
+
+
+
     } catch (e) {
       print(e.toString());
     }
@@ -48,12 +53,11 @@ class Authentication with ChangeNotifier {
 
   Future<UserCredential> signInWithFacebook() async {
     final AccessToken result = (await FacebookAuth.instance.login()) as AccessToken;
-
+// Create a credential from the access token
     final OAuthCredential facebookAuthCredential =
     FacebookAuthProvider.credential(result.token);
-
-    return await FirebaseAuth.instance
-        .signInWithCredential(facebookAuthCredential);
+    //return the UserCredential
+    return await _auth.signInWithCredential(facebookAuthCredential);
   }
 
 
@@ -80,4 +84,22 @@ class Authentication with ChangeNotifier {
       }
     }
   }
+
+  Future<String> encrypt(String password ) async {
+    final iv = ENCRYPT.IV.fromLength(16);
+
+    final encrypter = ENCRYPT.Encrypter(ENCRYPT.AES(ENCRYPT.Key.fromUtf8('WlFsdCYyJPPmKAVeA9ir+A=='),
+        ),
+    );
+
+    final  encrypted = encrypter.encrypt(password, iv: iv);
+
+    return encrypted.base64;
+
+
+  }
+
+
+
+
 }

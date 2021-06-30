@@ -1,4 +1,3 @@
-
 import 'package:final_test/LogInS.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +10,7 @@ var image5 = Image(image: assetImage5);
 class Reset extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final Authentication _auth = Authentication();
+  final String error1 = "user undefined ";
   TextEditingController _emailContoller = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -58,39 +58,52 @@ class Reset extends StatelessWidget {
 
             // password textfield
             Container(
+
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  TextField(
+                  TextFormField(
                     controller: _emailContoller,
                     decoration: InputDecoration(
                       labelText: "  email: ",
                       labelStyle: TextStyle(fontSize: 17, color: Colors.grey),
                     ),
+
                   ),
                   Container(height: 110.0),
                 ],
               ),
-            ),
 
+            ),
             // reset button
-            new Column(
+       Container(
+        child: Form(
+           child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 new RaisedButton(
                   elevation: 0.0,
                   child: new Text(" Reset password"),
                   onPressed: ()async {
-                    try{
-                      await _auth.sendPasswordResetEmail(_emailContoller.text);
-                    } on FirebaseAuthException catch (error) {
-                      print(error);
+                    try {
+                     dynamic result = await _auth.sendPasswordResetEmail( _emailContoller.text);
+                   if(result!=null) {
+                     Navigator.push(
+                       context,
+                       MaterialPageRoute(builder: (context) => (LogInS())),
+                     );
+                   }
+
+                    }  catch (error ) {
+                      error;
                     }
                   },
                 ),
                 Container(height: 25.0),
               ],
             ),
+        )
+       )
           ],
         ),
       ),
