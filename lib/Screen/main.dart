@@ -1,12 +1,14 @@
 
 
+import 'package:final_test/Screen/Confirm.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'SignUpS.dart';
 import 'LogInS.dart';
 import 'Reset.dart';
+import 'UploadFile.dart';
 import 'Welcome.dart';
-import '../models/authentication.dart';
+import '../../models/authentication.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 

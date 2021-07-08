@@ -1,7 +1,8 @@
 
+import 'package:final_test/Screen/UploadFile.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import '../models/authentication.dart';
+import '../../models/authentication.dart';
 
 var assetImage6 = AssetImage('assets/image6.png');
 var image6 = Image(
@@ -36,6 +37,10 @@ class Welcome extends StatelessWidget {
                 new RaisedButton(
                     child: new Text("Let's go"),
                     onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => (UploadFile())),
+                      );
                     }),
                 Container(height: 80.0),
               ],

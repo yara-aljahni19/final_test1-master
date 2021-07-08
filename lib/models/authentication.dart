@@ -1,5 +1,7 @@
 
-import 'package:final_test/database.dart';
+import 'dart:js';
+
+import 'package:final_test/models/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,10 +22,14 @@ class Authentication with ChangeNotifier {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
       User? user = result.user;
+      user = FirebaseAuth.instance.currentUser;
+
+      if (user!= null && !user.emailVerified) {
+        await user.sendEmailVerification();
+      }
 
         await database().createUserData(name, email, password, user!.uid);
         return user;
-
 
 
     } catch (e) {
@@ -39,7 +45,7 @@ class Authentication with ChangeNotifier {
 
       return result.user;
     } catch (e) {
-      print(e.toString());
+
     }
   }
 
@@ -85,19 +91,6 @@ class Authentication with ChangeNotifier {
     }
   }
 
-  Future<String> encrypt(String password ) async {
-    final iv = ENCRYPT.IV.fromLength(16);
-
-    final encrypter = ENCRYPT.Encrypter(ENCRYPT.AES(ENCRYPT.Key.fromUtf8('WlFsdCYyJPPmKAVeA9ir+A=='),
-        ),
-    );
-
-    final  encrypted = encrypter.encrypt(password, iv: iv);
-
-    return encrypted.base64;
-
-
-  }
 
 
 

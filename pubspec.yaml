@@ -36,6 +36,12 @@ dependencies:
   flutter_facebook_auth: ^3.5.0
   google_sign_in: ^5.0.4
   encrypt: ^5.0.0
+  email_auth: ^0.0.1+4
+  file_picker: ^3.0.3
+  firebase_storage: ^9.0.0
+  path: ^1.8.0
+  html: ^0.15.0
+  stacked_services: ^0.8.10
 
 
 
@@ -61,6 +67,7 @@ flutter:
     - assets/image4.png
     - assets/image5.png
     - assets/image6.png
+    - assets/confirm_img.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

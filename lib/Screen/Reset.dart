@@ -1,8 +1,8 @@
-import 'package:final_test/LogInS.dart';
+import 'package:final_test/Screen/LogInS.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import '../models/authentication.dart';
+import '../../models/authentication.dart';
 
 var assetImage5 = AssetImage('assets/image5.png');
 var image5 = Image(image: assetImage5);
@@ -20,6 +20,7 @@ class Reset extends StatelessWidget {
         appBar: AppBar(
           title: Text('Reset password'),
         ),
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: <Widget>[
             Container(

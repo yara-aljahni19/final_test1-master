@@ -1,9 +1,10 @@
 
 
 
+import 'package:final_test/Screen/Confirm.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../models/authentication.dart';
+import '../../models/authentication.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:encrypt/encrypt.dart';
 
@@ -26,17 +27,6 @@ class SignUp extends State<SignUpS> {
   TextEditingController _emailContoller = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
-  void createUser() async {
-    dynamic result = await _auth.createNewUser(
-        _nameController.text, _emailContoller.text, _passwordController.text);
-   if(result!=null) {
-     print(result.toString());
-     _nameController.clear();
-     _passwordController.clear();
-     _emailContoller.clear();
-     Navigator.pop(context);
-   }
-    }
 
 
   @override
@@ -47,6 +37,7 @@ class SignUp extends State<SignUpS> {
           appBar: AppBar(
             title: Text('first app'),
           ),
+          resizeToAvoidBottomInset: false,
           body: Stack(
             children: <Widget>[
               Container(
@@ -143,10 +134,21 @@ class SignUp extends State<SignUpS> {
 
                                             if (_formKey.currentState!.validate()) {
 
-
-                                                createUser();
+                                                 try {
+                            dynamic result = await _auth.createNewUser(_nameController.text, _emailContoller.text, _passwordController.text);
+                                                   if(result!=null) {
+                                                     Navigator.push(
+                                                       context,
+                                                       MaterialPageRoute(builder: (context) => (Confirm())),
+                                                     );
+                                                   }
+                                                 }catch(error){
+                                                  print(error);
+                                                         }
                                             }
-                                          }),
+
+                                          }
+                                          ),
                                     )
                                   ])
                             ])),
