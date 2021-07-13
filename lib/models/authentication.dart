@@ -1,5 +1,5 @@
 
-import 'dart:js';
+
 
 import 'package:final_test/models/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -67,18 +67,18 @@ class Authentication with ChangeNotifier {
   }
 
 
-  Future<void> signInWithGoogle() async {
+  Future signInWithGoogle() async {
     final googleSignIn = GoogleSignIn();
     final googleUser = await googleSignIn.signIn();
     if (googleUser != null) {
       final googleAuth = await googleUser.authentication;
       if (googleAuth.idToken != null) {
-        final userCredential = await _auth.signInWithCredential(
+        UserCredential result = await _auth.signInWithCredential(
           GoogleAuthProvider.credential(
               idToken: googleAuth.idToken, accessToken: googleAuth.accessToken),
         );
-        if (userCredential.user != null) {
-          return;
+        if (result.user != null) {
+          return result .user;
         } else {
           return;
         }

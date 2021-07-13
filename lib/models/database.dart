@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import '../Screen/SignUpS.dart';
@@ -14,6 +17,16 @@ class database {
 
     return await List.doc(uid).set({'name': name, 'email':email, 'password':password});
 
+  }
+
+  static UploadTask? uploadFile(String destination, File file) {
+    try {
+      final ref = FirebaseStorage.instance.ref(destination);
+
+      return ref.putFile(file);
+    } on FirebaseException catch (e) {
+      return null;
+    }
   }
 
 
