@@ -17,7 +17,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
   runApp(MaterialApp(
     title: 'first app',
-    home: UploadFile (),
+    home: UploadFile(),
   ));
 }
 

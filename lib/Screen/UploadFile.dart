@@ -1,11 +1,12 @@
 
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:final_test/models/database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:path/path.dart';
 import '../../models/authentication.dart';
 
 
@@ -15,13 +16,19 @@ class UploadFile extends StatefulWidget {
 
 class UploadFileS extends State<UploadFile> {
 
-
+  File? file;
   final _formKey = GlobalKey<FormState>();
   final Authentication _auth = Authentication();
   UploadTask? task;
-  File? file;
+  late String _extension;
+  bool _multiPick = false;
+  var _pickType;
+  late Map<String, String> _paths;
+  late String _path;
   @override
   Widget build(BuildContext context) {
+    final String fileName =
+    file != null ? (file!.path) : "No File Selected";
     return MaterialApp(
         home: Scaffold(
             backgroundColor: Color(0xFFE8FFFF),
@@ -61,19 +68,39 @@ class UploadFileS extends State<UploadFile> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(
                                 130.0, 2.0, 0.0, 160.0),
-                            child: DropdownButton<String>(
 
-                              items: <String>['docx', 'pdf', 'png'].map((
-                                  String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: new Text(value),
-                                );
-                              }).toList(),
-                              onChanged: (_) {},
 
+                           child:new DropdownButton<dynamic>(
+                            hint: new Text('Select'),
+                            value: _pickType,
+                            items: <DropdownMenuItem>[
+                            new DropdownMenuItem(
+                            child: new Text('Image'),
+                                value: ".png"
                             ),
-                          ),
+                            new DropdownMenuItem(
+                            child: new Text('pdf'),
+                                value: ".pdf"
+                            ),
+                              new DropdownMenuItem(
+                                  child: new Text('Audio'),
+                                  value: ".mp3"
+                              ),
+                              new DropdownMenuItem(
+                                  child: new Text('document'),
+                                  value: ".docx"
+                              ),
+                            new DropdownMenuItem(
+                            child: new Text('powerpoint'),
+                                value: ".pptx"
+                            ),
+                            ],
+                            onChanged: (newvalue) => setState(() {
+                            _pickType = newvalue;
+                            }),
+                  )
+                            ),
+
 
 
                         ]
@@ -140,24 +167,8 @@ class UploadFileS extends State<UploadFile> {
                           new RaisedButton(
                               child: new Text(" Upload"),
                               onPressed: () {
-                                try{
 
-                                    if (file == null) {
-                                      _showAlertDialog('error message','there is no file to upload');
-    }
-                                    else {
-                                      final fileName = (file!.path);
-                                      final destination = (fileName);
-                                      task = database.uploadFile(
-                                          destination, file!);
-                                      setState(() {});
-                                      _showAlertDialog('success message','file is uploaded successfuly');
-                                    }
-
-                                }catch (error) {
-
-                                }
-
+                                upload(fileName);
                               }
                           ),
                           Container(height: 35.0),
@@ -168,6 +179,7 @@ class UploadFileS extends State<UploadFile> {
                 ]
             )));
   }
+
 
   Future select() async {
 
@@ -180,22 +192,24 @@ class UploadFileS extends State<UploadFile> {
     setState(() => file = File(path));
   }
 
+  Future upload(fileName) async {
 
-  void _showAlertDialog(String title, String message) {
+    final fileType = extension(file!.path);
+    if (_pickType != null && fileType == _pickType) {
+      final destination = (fileType);
+      task = database.uploadFile(
+          destination, file!);
+      setState(() {});
 
-    AlertDialog alertDialog = AlertDialog(
-      title: Text(title),
-      content: Text(message),
-    );
-    showDialog(
-       context: context,
-        builder: (_) => alertDialog ,
-
-    );
+     } else if ( fileType != _pickType!) {
+   print('mm');
+  }
   }
 
 
-}
+  }
+
+
 
 
 
