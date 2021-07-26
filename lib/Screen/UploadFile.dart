@@ -197,13 +197,22 @@ class UploadFileS extends State<UploadFile> {
     final fileType = extension(file!.path);
     if (_pickType != null && fileType == _pickType) {
       final destination = (fileType);
-      task = database.uploadFile(
+      task = uploadFile(
           destination, file!);
       setState(() {});
 
      } else if ( fileType != _pickType!) {
    print('mm');
   }
+  }
+  static UploadTask? uploadFile(String destination, File file) {
+    try {
+      final ref = FirebaseStorage.instance.ref(destination);
+
+      return ref.putFile(file);
+    } on FirebaseException catch (e) {
+      return null;
+    }
   }
 
 

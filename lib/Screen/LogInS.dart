@@ -91,9 +91,13 @@ class LogIn extends State<LogInS> {
                         new RaisedButton(
                           onPressed: () async {
                             try{
-                               await _auth.signInWithGoogle(); {
-
-                               }
+                         dynamic result=  await _auth.signInWithGoogle(); {}
+                         if(result!= null){
+                           Navigator.push(
+                               context,
+                               MaterialPageRoute(builder: (context) => (Welcome())),
+                           );
+                         }
 
                             } on FirebaseAuthException catch (error) {
                               print(error);

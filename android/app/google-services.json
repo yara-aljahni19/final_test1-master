@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "629115620606",
+    "firebase_url": "https://final-test-3825d-default-rtdb.firebaseio.com",
     "project_id": "final-test-3825d",
     "storage_bucket": "final-test-3825d.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "629115620606-6kk36himh3auigogijnbbp7n8nhocepf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.final_test",
+            "certificate_hash": "5e1acd238303d18d6fa90f1e5ae115d2d2f373f9"
+          }
+        },
         {
           "client_id": "629115620606-l7a4okka7odldr90u80n2acs7s61ihon.apps.googleusercontent.com",
           "client_type": 3
